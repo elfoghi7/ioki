@@ -1,262 +1,147 @@
-Parallax.js
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-TapBarMenu-lightgrey.svg?style=flat)](https://android-arsenal.com/details/1/2886)
+[![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
+[![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
+
+
+TapBar Menu
 ===========
 
-Simple parallax scrolling implemented as a jQuery plugin.  
-[http://pixelcog.com/parallax.js/](http://pixelcog.com/parallax.js/)
+Simple library that helps creating a "Tap Bar" menu layout.
 
+![alt text](http://i.giphy.com/ZRCzrySXUaMwM.gif "Demo 1")
+![alt text](http://i.giphy.com/zIBFfp4iLlGAo.gif "Demo 2")
 
-Please also check our [v2.0.0-alpha](https://github.com/pixelcog/parallax.js/tree/v2.0.0-alpha)! We'd be happy to receive your feedback!
+Demo 1: https://youtu.be/DjY0cTWWtao
 
-**ATTENTION:** please use the issue tracker for bug reports and feature requests ONLY! For questions and topics which go along the lines "I cannot get this to work" please turn to [stackoverflow.com](https://stackoverflow.com/questions/tagged/parallax.js) for help and use the tag [parallax.js](https://stackoverflow.com/questions/tagged/parallax.js). Thank you for your understanding!
+Demo 2: https://youtu.be/dWuPMN6WTOY
 
+## Install
+Since version **1.0.6** this library is being distributed via [JitPack](http://jitpack.io/)
 
-## Installation
-
-### NPM
-
-```bash
-npm i --save jquery-parallax.js
-```
-
-### Yarn
-
-```bash
-yarn add jquery-parallax.js
-```
-
-### Bower
-
-Please note that although Bower is still maintained, they recommend Yarn for new projects.
-
-```bash
-$ bower i --save parallax.js
-```
-
-### Setup
-
-Include `parallax.min.js` in your document after including jQuery (compatible with jQuery >= 1.7).
-
-```html
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/path/to/parallax.min.js"></script>
-```
-
-Use these CDN links, provided by jsDelivr.com
-```html
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/parallax.js/1.4.2/parallax.min.js"></script>
-```
-
-## Usage
-
-Please note, that `<!DOCTYPE html>` on top of your document is required!
-
-### Simple version via data attributes
-
-*Note: for more complex requirements we recommend using the [inner HTML markup](#using-inner-html-for-complex-content) below! With that it's possible to use the parallax effect with almost any HTML content*
-
-To easily add a parallax effect behind an element, add `data-parallax="scroll"` to the element you want to use, and specify an image with `data-image-src="/path/to/image.jpg"`.
-
-```html
-<div class="parallax-window" data-parallax="scroll" data-image-src="/path/to/image.jpg"></div>
-```
-
-### Via JavaScript
-
-To call the parallax plugin manually, simply select your target element with jQuery and do the following:
-
-```javascript
-$('.parallax-window').parallax({imageSrc: '/path/to/image.jpg'});
-```
-
-### Notes
-
-What parallax.js will do is create a fixed-position element for each parallax image at the start of the document's body (or another configurable container). This mirror element will sit behind the other elements and match the position and dimensions of its target object.
-
-Due to the nature of this implementation, you must ensure that these parallax objects and any layers below them are transparent so that you can see the parallax effect underneath.  Also, if there is no other content in this element, you will need to ensure that it has some fixed dimensions otherwise you won't see anything.
-
-```css
-.parallax-window {
-	min-height: 400px;
-	background: transparent;
+**Step 1:**  
+Add it in your root build.gradle at the end of repositories:
+```groovy
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
 }
 ```
 
-Also, keep in mind that once initialized, the parallax plugin presumes a fixed page layout unless it encounters a `scroll` or `resize` event.  If you have a dynamic page in which another javascript method may alter the DOM, you must manually refresh the parallax effect with the following commands:
+**Step 2:**  
+Add the dependency:
+```groovy
+dependencies {
+	implementation 'com.github.michaldrabik:TapBarMenu:1.0.6'
+}
+```
+---
+For versions **1.0.5** and older:
 
-```javascript
-jQuery(window).trigger('resize').trigger('scroll');
+Add the dependency to your `build.gradle`:
+
+```groovy
+dependencies {
+    compile 'com.github.michaldrabik:tapbarmenu:1.0.5'
+}
 ```
 
-### Using inner HTML for complex content
+## Use
 
-You can use the following syntax to enable complex content for the parallax:
+Check sample project for a full example.
 
-```html
-<div class="parallax-window">
-  <div class="parallax-slider">
-    <span style="position:absolute; top: 400px; left: 400px;">Some Text</span>
-	<p>Some other Content</p>
-  </div>
-</div>
+TapBarMenu is an extension of a LinearLayout so you can simply put it in your XML. For example:
+```xml
+<com.michaldrabik.tapbarmenulib.TapBarMenu
+  android:id="@+id/tapBarMenu"
+  android:layout_width="match_parent"
+  android:layout_height="56dp"
+  android:layout_gravity="bottom"
+  android:layout_marginBottom="24dp"
+  >
+  
+    <ImageView
+      android:id="@+id/item1"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:paddingTop="10dp"
+      android:paddingBottom="10dp"
+      android:src="@drawable/ic_thumb_up"
+      />
+  
+    <Space
+      android:layout_width="56dp"
+      android:layout_height="match_parent"
+      />
+  
+    <ImageView
+      android:id="@+id/item2"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:paddingTop="10dp"
+      android:paddingBottom="10dp"
+      android:src="@drawable/ic_thumb_down"
+      />
+   
+</com.michaldrabik.tapbarmenulib.TapBarMenu>
 ```
-Please note, that the div with class "parallax-slider" is essential here.
+This will create a menu with 2 icons in the bottom of the screen.
 
-You then need to initialize it through JS and provide the naturalWidth and naturalHeight options in order to be rendered correctly.
-
-```
-$('.parallax-window').parallax({
-    naturalWidth: 600,
-    naturalHeight: 400
-  });
-```
-
-This also makes it possible to use responsive images in the slider:
-
-```html
-<div class="parallax-window">
-  <div class="parallax-slider">
-    <img src="/path/to/image.jpg" srcset="/path/to/image-400px.jpg 400w, /path/to/image-800px.jpg 800w, /path/to/image-1200px.jpg 1200w" sizes="100vw">
-  </div>
-</div>
+Then, in your code, call `open()`, `close()` or `toggle()` to open/close the menu: 
+```java
+tapBarMenu.setOnClickListener(new View.OnClickListener() {
+  @Override public void onClick(View v) {
+    tapBarMenu.toggle();
+  }
+});
 ```
 
-## Options
+*Note: TapBarMenu will always expand to its parent width. You can choose between 2 anchors `bottom` or `top` - see attributes below.*
 
-Options can be passed in via data attributes of JavaScript.  For data attributes, append the option name to `data-`, as in `data-image-src=""`.
+## Customize
+All available XML parameters are listed below:
 
-Note that when specifying these options as html data-attributes, you should convert "camelCased" variable names into "dash-separated" lower-case names (e.g. `zIndex` would be `data-z-index=""`).
+| Attribute     | Format         | Description  |
+| ------------- |:-------------:|:-----:|
+| app:tbm_showItems|true, false|Use this to show menu's items in a XML preview window.<br>Useful for designing your menu.<br>*Default: false*|
+| app:tbm_backgroundColor|color|Menu color.<br>*Default: red*|
+| app:tbm_buttonSize|dimension|Diameter of the menu button.<br>*Default: 56dp*|
+| app:tbm_buttonPosition|left, right, center|Position of the menu button.<br>*Default: center*|
+| app:tbm_buttonMarginRight|dimension|Button position right margin.<br>*Default: 0*|
+| app:tbm_buttonMarginLeft|dimension|Button position left margin.<br>*Default: 0*|
+| app:tbm_iconOpened|drawable|Custom icon for opened state. Must be an animated vector drawable.<br>*Default: X icon*|
+| app:tbm_iconClosed|drawable|Custom icon for closed state. Must be an animated vector drawable.<br>*Default: Menu icon*|
+| app:tbm_menuAnchor|top, bottom|Where menu should expand.<br>*Default: bottom*|
 
-<table class="table table-bordered table-striped">
-	<thead>
-		<tr>
-			<th style="width: 100px;">Name</th>
-			<th style="width: 100px;">type</th>
-			<th style="width: 50px;">default</th>
-			<th>description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>imageSrc</td>
-			<td>path</td>
-			<td>null</td>
-			<td>You must provide a path to the image you wish to apply to the parallax effect.</td>
-		</tr>
-		<tr>
-			<td>naturalWidth</td>
-			<td>number</td>
-			<td>auto</td>
-			<td rowspan="2">You can provide the natural width and natural height of an image to speed up loading and reduce error when determining the correct aspect ratio of the image.</td>
-		</tr>
-		<tr>
-			<td>naturalHeight</td>
-			<td>number</td>
-			<td>auto</td>
-		</tr>
-		<tr>
-			<td>position</td>
-			<td>xPos yPos</td>
-			<td>center center</td>
-			<td rowspan="3">This is analogous to the background-position css property. Specify coordinates as top, bottom, right, left, center, or pixel values (e.g. -10px 0px). The parallax image will be positioned as close to these values as possible while still covering the target element.</td>
-		</tr>
-		<tr>
-			<td>positionX</td>
-			<td>xPos</td>
-			<td>center</td>
-		</tr>
-		<tr>
-			<td>positionY</td>
-			<td>yPos</td>
-			<td>center</td>
-		</tr>
-		<tr>
-			<td>speed</td>
-			<td>float</td>
-			<td>0.2</td>
-			<td>The speed at which the parallax effect runs. 0.0 means the image will appear fixed in place, and 1.0 the image will flow at the same speed as the page content.</td>
-		</tr>
-		<tr>
-			<td>zIndex</td>
-			<td>number</td>
-			<td>-100</td>
-			<td>The z-index value of the fixed-position elements.  By default these will be behind everything else on the page.</td>
-		</tr>
-		<tr>
-			<td>bleed</td>
-			<td>number</td>
-			<td>0</td>
-			<td>You can optionally set the parallax mirror element to extend a few pixels above and below the mirrored element.  This can hide slow or stuttering scroll events in certain browsers.</td>
-		</tr>
-		<tr>
-			<td>iosFix</td>
-			<td>boolean</td>
-			<td>true</td>
-			<td>If true, this option will set the parallax image as a static, centered background image whenever it detects an iOS user agent. You also need to set iosDisabled option true to make this option works. Disable this if you wish to implement your own graceful degradation.</td>
-		</tr>
-		<tr>
-			<td>iosDisabled</td>
-			<td>boolean</td>
-			<td>true</td>
-			<td>If true, the parallax effect is disabled on iOS devices.</td>
-		</tr>
-		<tr>
-			<td>androidFix</td>
-			<td>boolean</td>
-			<td>true</td>
-			<td>If true, this option will set the parallax image as a static, centered background image whenever it detects an Android user agent. You also need to set androidDisabled option true to make this option works. Disable this if you wish to enable the parallax scrolling effect on Android devices.</td>
-		</tr>
-		<tr>
-			<td>androidDisabled</td>
-			<td>boolean</td>
-			<td>true</td>
-			<td>If true, the parallax effect is disabled on Android devices.</td>
-		</tr>
-		<tr>
-			<td>overScrollFix</td>
-			<td>boolean</td>
-			<td>false</td>
-			<td>(Experimental) If true, will freeze the parallax effect when "over scrolling" in browsers like Safari to prevent unexpected gaps caused by negative scroll positions.</td>
-		</tr>
-		<tr>
-			<td>mirrorContainer</td>
-			<td>jQuery Selector</td>
-			<td>body</td>
-			<td>The parallax mirror will be prepended into this container.</td>
-		</tr>
-	</tbody>
-</table>
+## Kudos
 
-## Contributing
+I've been inspired by [Aaron Benjamin's](https://dribbble.com/shots/2345329-Tab-Bar-Animation) great design.
 
-If you have a pull request you would like to submit, please ensure that you update the minified version of the library along with your code changes.  This project uses [uglifyjs](https://www.npmjs.com/package/uglify-js) to perform code compression.
+## Release Notes
 
-Please use the following command:
+1.0.6 - Update Android dependencies and migrate to JitPack
+<br>1.0.5 - Added Regular Drawable support
+<br>1.0.4 - Memory optimizations, onClick listener fixes
+<br>1.0.2 - You can now add custom icon via XML or code. See attributes.
+<br>1.0.1 - Pre 21 SDK bugfixes
+<br>1.0.0 - Initial release
 
-	uglifyjs parallax.js --comments -m -c -o parallax.min.js
+## License
 
+    Copyright (C) 2019 Michal Drabik
 
-LICENSE
-=======
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-The MIT License (MIT)
+         http://www.apache.org/licenses/LICENSE-2.0
 
-Copyright (c) 2016 PixelCog Inc.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
